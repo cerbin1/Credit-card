@@ -1,13 +1,20 @@
 package com.bartek.creditcard;
 
-public class CreditCard {
-    private int limit;
+import com.bartek.creditcard.exception.CardLimitAlreadyAssignedException;
 
-    public void setLimit(int limit) {
-        this.limit = limit;
+import java.math.BigDecimal;
+
+public class CreditCard {
+    private BigDecimal limit;
+
+    public void assignLimit(BigDecimal newLimit) {
+        if (limit != null) {
+            throw new CardLimitAlreadyAssignedException();
+        }
+        this.limit = newLimit;
     }
 
-    public int getLimit() {
+    public BigDecimal getLimit() {
         return limit;
     }
 }
