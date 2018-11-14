@@ -1,6 +1,6 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.bartek.creditcard</groupId>
-    <artifactId>my-app</artifactId>
+    <artifactId>creditcard-app</artifactId>
     <version>1</version>
 </project>
