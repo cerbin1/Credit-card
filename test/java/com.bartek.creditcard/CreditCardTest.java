@@ -1,9 +1,6 @@
 package com.bartek.creditcard;
 
-import com.bartek.creditcard.exception.CardBlockedException;
-import com.bartek.creditcard.exception.CardLimitAlreadyAssignedException;
-import com.bartek.creditcard.exception.LimitExceededException;
-import com.bartek.creditcard.exception.NotEnaughBalanceException;
+import com.bartek.creditcard.exception.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -108,5 +105,28 @@ public class CreditCardTest {
 
         // when
         creditCard.withdraw(toBigDecimal(500));
+    }
+
+    @Test
+    public void shouldRepayMoney() {
+        // given
+        CreditCard creditCard = new CreditCard(toBigDecimal(-1000));
+        BigDecimal balanceBeforeRepay = creditCard.getBalance();
+
+        // when
+        creditCard.repay(toBigDecimal(1000));
+
+        // then
+        assertEquals(toBigDecimal(-1000), balanceBeforeRepay);
+        assertEquals(BigDecimal.ZERO, creditCard.getBalance());
+    }
+
+    @Test(expected = NegativeMoneyToRepayException.class)
+    public void shouldThrowExceptionWhenMoneyToRepayIsNegative() {
+        // given
+        CreditCard creditCard = new CreditCard();
+
+        // when
+        creditCard.repay(toBigDecimal(-1000));
     }
 }
