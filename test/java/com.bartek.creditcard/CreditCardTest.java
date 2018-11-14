@@ -1,6 +1,9 @@
 package com.bartek.creditcard;
 
+import com.bartek.creditcard.exception.CardBlockedException;
 import com.bartek.creditcard.exception.CardLimitAlreadyAssignedException;
+import com.bartek.creditcard.exception.LimitExceededException;
+import com.bartek.creditcard.exception.NotEnaughBalanceException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -60,5 +63,50 @@ public class CreditCardTest {
         // then
         assertFalse(creditCardStatusBeforeBlock);
         Assert.assertTrue(creditCard.isBlocked());
+    }
+
+    @Test
+    public void shouldWithdrawMoney() {
+        // given
+        CreditCard creditCard = new CreditCard(toBigDecimal(1000));
+        creditCard.assignLimit(toBigDecimal(1000));
+        BigDecimal balanceBefore = creditCard.getBalance();
+
+        // when
+        creditCard.withdraw(toBigDecimal(500));
+
+        // then
+        assertEquals(toBigDecimal(1000), balanceBefore);
+        assertEquals(toBigDecimal(500), creditCard.getBalance());
+    }
+
+    @Test(expected = NotEnaughBalanceException.class)
+    public void shouldNotWithdrawWhenNotEnoughBalance() {
+        // given
+        CreditCard creditCard = new CreditCard();
+
+        // when
+        creditCard.withdraw(toBigDecimal(500));
+    }
+
+    @Test(expected = LimitExceededException.class)
+    public void shouldNotWithdrawWhenMoneyExceedLimit() {
+        // given
+        CreditCard creditCard = new CreditCard(toBigDecimal(2000));
+        creditCard.assignLimit(toBigDecimal(1000));
+
+        // when
+        creditCard.withdraw(toBigDecimal(2000));
+    }
+
+    @Test(expected = CardBlockedException.class)
+    public void shouldNotWithdrawWhenCardIsBlocked() {
+        // given
+        CreditCard creditCard = new CreditCard(toBigDecimal(1000));
+        creditCard.assignLimit(toBigDecimal(1000));
+        creditCard.block();
+
+        // when
+        creditCard.withdraw(toBigDecimal(500));
     }
 }
