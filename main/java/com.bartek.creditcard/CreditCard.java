@@ -60,6 +60,17 @@ public class CreditCard {
         balance = balance.subtract(moneyAmount);
     }
 
+    public void repay(BigDecimal money) {
+        if (money.compareTo(BigDecimal.ZERO) < 0) {
+            throw new CantRepayNegativeAmountException();
+        }
+        balance = balance.add(money);
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
     private boolean isBalanceTooLow(BigDecimal moneyAmount) {
         return moneyAmount.compareTo(balance) > 0;
     }
