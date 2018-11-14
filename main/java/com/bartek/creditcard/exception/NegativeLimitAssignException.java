@@ -1,4 +1,4 @@
-package com.bartek.creditcard;
+package com.bartek.creditcard.exception;
 
 public class NegativeLimitAssignException extends RuntimeException {
 }

@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 public class CreditCard {
     private BigDecimal limit;
     private boolean blocked;
-    private BigDecimal moneyAmount;
     private BigDecimal balance;
 
     public CreditCard() {
@@ -19,13 +18,21 @@ public class CreditCard {
     }
 
     public void assignLimit(BigDecimal newLimit) {
-        if (limit != null) {
+        if (isLimitAlreadyAssigned()) {
             throw new CardLimitAlreadyAssignedException();
         }
-        if (newLimit.compareTo(BigDecimal.ZERO) <= 0) {
+        if (isNegative(newLimit)) {
             throw new NegativeLimitAssignException();
         }
         this.limit = newLimit;
+    }
+
+    private boolean isLimitAlreadyAssigned() {
+        return limit != null;
+    }
+
+    private boolean isNegative(BigDecimal moneyAmount) {
+        return moneyAmount.compareTo(BigDecimal.ZERO) < 0;
     }
 
     public BigDecimal getLimit() {
@@ -65,7 +72,7 @@ public class CreditCard {
     }
 
     public void repay(BigDecimal moneyAmount) {
-        if (moneyAmount.compareTo(BigDecimal.ZERO) < 0) {
+        if (isNegative(moneyAmount)) {
             throw new NegativeMoneyToRepayException();
         }
         balance = balance.add(moneyAmount);
