@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CreditCardTest {
     private static BigDecimal toBigDecimal(long value) {
@@ -60,6 +61,20 @@ public class CreditCardTest {
         // then
         assertFalse(creditCardStatusBeforeBlock);
         Assert.assertTrue(creditCard.isBlocked());
+    }
+
+    @Test (expected = CardIsAlreadyBlockedException.class)
+    public void shouldNotBlockAlreadyBlockedCard() {
+        // given
+        CreditCard creditCard = new CreditCard();
+        creditCard.block();
+        boolean isCreditCardBlocked = creditCard.isBlocked();
+
+        // when
+        creditCard.block();
+
+        // then
+        assertTrue(isCreditCardBlocked);
     }
 
     @Test

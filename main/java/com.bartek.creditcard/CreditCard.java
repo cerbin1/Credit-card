@@ -37,6 +37,9 @@ public class CreditCard {
     }
 
     public void block() {
+        if (blocked) {
+            throw new CardIsAlreadyBlockedException();
+        }
         blocked = true;
     }
 
