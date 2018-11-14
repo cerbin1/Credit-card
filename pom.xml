@@ -3,4 +3,12 @@
     <groupId>com.bartek.creditcard</groupId>
     <artifactId>creditcard-app</artifactId>
     <version>1</version>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
