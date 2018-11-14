@@ -36,4 +36,13 @@ public class CreditCardTest {
         // then
         assertEquals(toBigDecimal(2000), creditCard.getLimit());
     }
+
+    @Test(expected = NegativeLimitAssignException.class)
+    public void shouldNotAssignNegativeLimit() {
+        // given
+        CreditCard creditCard = new CreditCard();
+
+        // when
+        creditCard.assignLimit(toBigDecimal(-10));
+    }
 }

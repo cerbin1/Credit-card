@@ -11,6 +11,9 @@ public class CreditCard {
         if (limit != null) {
             throw new CardLimitAlreadyAssignedException();
         }
+        if (newLimit.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new NegativeLimitAssignException();
+        }
         this.limit = newLimit;
     }
 
