@@ -1,9 +1,6 @@
 package com.bartek.creditcard;
 
-import com.bartek.creditcard.exception.CardBlockedException;
-import com.bartek.creditcard.exception.CardLimitAlreadyAssignedException;
-import com.bartek.creditcard.exception.LimitExceededException;
-import com.bartek.creditcard.exception.NotEnaughBalanceException;
+import com.bartek.creditcard.exception.*;
 
 import java.math.BigDecimal;
 
@@ -60,18 +57,14 @@ public class CreditCard {
         balance = balance.subtract(moneyAmount);
     }
 
-    public void repay(BigDecimal money) {
-        if (money.compareTo(BigDecimal.ZERO) < 0) {
-            throw new CantRepayNegativeAmountException();
-        }
-        balance = balance.add(money);
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
     private boolean isBalanceTooLow(BigDecimal moneyAmount) {
         return moneyAmount.compareTo(balance) > 0;
+    }
+
+    public void repay(BigDecimal moneyAmount) {
+        if (moneyAmount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new NegativeMoneyToRepayException();
+        }
+        balance = balance.add(moneyAmount);
     }
 }
