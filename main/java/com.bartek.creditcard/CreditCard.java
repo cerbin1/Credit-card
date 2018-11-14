@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 public class CreditCard {
     private BigDecimal limit;
+    private boolean blocked;
 
     public void assignLimit(BigDecimal newLimit) {
         if (limit != null) {
@@ -19,5 +20,13 @@ public class CreditCard {
 
     public BigDecimal getLimit() {
         return limit;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void block() {
+        blocked = true;
     }
 }

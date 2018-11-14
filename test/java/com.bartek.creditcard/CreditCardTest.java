@@ -1,11 +1,13 @@
 package com.bartek.creditcard;
 
 import com.bartek.creditcard.exception.CardLimitAlreadyAssignedException;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class CreditCardTest {
     private static BigDecimal toBigDecimal(long value) {
@@ -44,5 +46,19 @@ public class CreditCardTest {
 
         // when
         creditCard.assignLimit(toBigDecimal(-10));
+    }
+
+    @Test
+    public void shouldBlockCard() {
+        // given
+        CreditCard creditCard = new CreditCard();
+        boolean creditCardStatusBeforeBlock = creditCard.isBlocked();
+
+        // when
+        creditCard.block();
+
+        // then
+        assertFalse(creditCardStatusBeforeBlock);
+        Assert.assertTrue(creditCard.isBlocked());
     }
 }
